@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Todo
+    </ion-title>
+    <!-- Being able to add to ToDo-->
+    <ion-buttons end>
+      <button (click)="toggleReorder()" ion-button *ngIf="!reoderIsEnabled">
+        Edit
+      </button>
+      
+      <button (click)="toggleReorder()" ion-button *ngIf="reoderIsEnabled">
+        Done
+      </button>
+      
+      <button ion-button (click)="openTodoAlert()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <!-- 
+    Swiping, Get options for sliding 
+    Use swipe and add items buttons, icon trash
+  -->
+  <ion-list [reorder]="reoderIsEnabled" (ionItemReorder)="itemReordered($event)">
+    <ion-item-sliding *ngFor="let todo of todos; let todoIndex = index">
+    <!-- 
+        Challenge - Create Left Swipe
+      -->
+    <ion-item-options side="left">
+        <button ion-button (click)="editTodo(todoIndex)">          
+            <ion-icon name="create"></ion-icon>
+          </button>
+      </ion-item-options>                        
+
+        <ion-item>{{todo}}</ion-item>
+
+      <ion-item-options side="right">
+        <button color="danger" ion-button (click)="archiveTodo(todoIndex)">          
+          <ion-icon name="trash" ></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+  </ion-list>
+  
+  <!-- 
+    Put icon at bottom right to go to archived paged 
+    can use nav push attribute instead of hardcode
+     [navPush]="archivedTodosPage"
+  -->
+  <ion-fab right bottom>
+    <button ion-fab (click)="goToArchivePage()">
+      <ion-icon name="archive"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>
